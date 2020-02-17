@@ -2,8 +2,89 @@
 
 * {
   display: block;
+  align-content: center;
+  box-sizing: border-box;
+}
+
+title {
+  display: none;
+}
+
+h1 {
+  color: black;
+  text-shadow: 0.5px 0.5px white;
 }
 
 body {
   align-content: center;
+  font-family: "Permanent Marker", cursive;
+  font-weight: 500;
+}
+
+.page-header {
+  display: flex;
+  justify-content: center;
+  background-color: red;
+  border: 2px solid black;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  border: 2px solid red;
+}
+
+.screen {
+  border: 30px solid black;
+  display: flex;
+  justify-content: center;
+  min-width: 500px;
+  border-radius: 50%;
+  min-height: 300px;
+}
+
+.page-footer {
+  border: 2px solid black;
+}
+
+button {
+  border: 1px solid blue;
+  width: 180px;
+  padding: 10px;
+  font-size: 22px;
+  border-radius: 50%;
+  border-bottom: 8px solid black;
+  color: red;
+}
+
+button:active {
+  text-shadow: 0.5px 0.5px blue;
+  background-color: yellow;
+  padding: 10px;
+  box-shadow: 2px 2px black;
+}
+
+.clickedButton {
+  margin: 1px;
+}
+
+ul {
+  border: 2px solid orange;
+  min-width: 100px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+li {
+  text-decoration: none;
+  border: 2px dotted green;
+  font-size: medium;
+  width: 230px;
+  align-content: right;
+  margin: 0 auto;
+  max-height: 50px;
+  display: block;
 }
