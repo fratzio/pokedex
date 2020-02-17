@@ -28,6 +28,20 @@ var pokemonRepository = (function() {
     return false;
   }
 
+  function addListItem(pokemon) {
+    var listItem = document.createElement("li");
+    var button = document.createElement("button");
+    // Adding var to the new Button element
+    button.innerHTML = pokemon.name;
+    // Add list element to the Dom via the ul parent (automatically the last child)
+    $newList.appendChild(listItem);
+    // Access this last child and append the Pokemon button
+    $lastListChild = $newList.lastElementChild;
+    $lastListChild.appendChild(button);
+    // Creating a css class for clicking on the button
+    $lastListChild.classList.add("clickedButton");
+  }
+
   // add new Pokemon to repo
   function add(pokemon) {
     // make sure type is object
@@ -68,29 +82,15 @@ var pokemonRepository = (function() {
   return {
     add: add,
     getAll: getAll,
-    search: search
+    search: search,
+    addListItem: addListItem
   };
 })();
 
+var $newList = document.querySelector("ul");
 // refactored forEach loop
 Object.keys(pokemonRepository.getAll()).forEach(function(property) {
-  if (pokemonRepository.getAll()[property].height > 100) {
-    document.write(
-      pokemonRepository.getAll()[property].name +
-        " (height: " +
-        pokemonRepository.getAll()[property].height +
-        ') "Wow, that\'s big!"' +
-        "<br>"
-    );
-  } else {
-    document.write(
-      pokemonRepository.getAll()[property].name +
-        " (height: " +
-        pokemonRepository.getAll()[property].height +
-        ")" +
-        "<br>"
-    );
-  }
+  pokemonRepository.addListItem(pokemonRepository.getAll()[property]);
 });
 
 /* 
