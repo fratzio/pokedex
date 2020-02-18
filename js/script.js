@@ -28,6 +28,7 @@ var pokemonRepository = (function() {
     return false;
   }
 
+  // function that adds a new pokemon into the app as a button in the DOM
   function addListItem(pokemon) {
     var listItem = document.createElement("li");
     var button = document.createElement("button");
@@ -40,6 +41,11 @@ var pokemonRepository = (function() {
     $lastListChild.appendChild(button);
     // Creating a css class for clicking on the button
     $lastListChild.classList.add("clickedButton");
+    $lastListChild.addEventListener("click", showDetails);
+  }
+
+  function showDetails(pokemon) {
+    console.log(pokemon);
   }
 
   // add new Pokemon to repo
@@ -83,7 +89,8 @@ var pokemonRepository = (function() {
     add: add,
     getAll: getAll,
     search: search,
-    addListItem: addListItem
+    addListItem: addListItem,
+    showDetails: showDetails
   };
 })();
 
