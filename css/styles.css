@@ -47,7 +47,7 @@ body {
   border: 2px solid black;
 }
 
-button {
+.customButton {
   border: 1px solid blue;
   width: 180px;
   padding: 10px;
@@ -62,10 +62,6 @@ button:active {
   background-color: yellow;
   padding: 10px;
   box-shadow: 2px 2px black;
-}
-
-.clickedButton {
-  margin: 1px;
 }
 
 ul {
