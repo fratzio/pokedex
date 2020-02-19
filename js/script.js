@@ -23,7 +23,8 @@ var pokemonRepository = (function() {
 
   // function for checking the new pokemon has correct key fields
   function checkKeys(pokemon) {
-    if (pokemon.length !== 3)
+    numKeys = Object.keys(pokemon);
+    if (numKeys.length !== 3)
       console.log("Incorrect number of Keys in Pokemon object");
     return false;
   }
@@ -34,14 +35,14 @@ var pokemonRepository = (function() {
     var button = document.createElement("button");
     // Adding var to the new Button element
     button.innerHTML = pokemon.name;
+    // Creating a css class for clicking on the button
+    button.classList.add("customButton");
+    // Add button to li item
+    listItem.appendChild(button);
     // Add list element to the Dom via the ul parent (automatically the last child)
     $newList.appendChild(listItem);
-    // Access this last child and append the Pokemon button
-    $lastListChild = $newList.lastElementChild;
-    $lastListChild.appendChild(button);
-    // Creating a css class for clicking on the button
-    $lastListChild.classList.add("clickedButton");
-    $lastListChild.addEventListener("click", showDetails);
+    // Add event listener to button element
+    button.addEventListener("click", showDetails);
   }
 
   function showDetails(pokemon) {
