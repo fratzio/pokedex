@@ -12,22 +12,9 @@ var pokemonRepository = (function() {
     { name: "snorlax", height: "120", type: ["rock", "water"] }
   ];
 
-  // function for checking duplicates
-  function checkDuplicate(newPokemon) {
-    for (var i = 0; i < repository.length; i++) {
-      if (newPokemon.name === repository[i].name) {
-        return true;
-      }
-    }
-  }
-
-  // function for checking the new pokemon has correct key fields
-  function checkKeys(pokemon) {
-    numKeys = Object.keys(pokemon);
-    if (numKeys.length !== 3)
-      console.log("Incorrect number of Keys in Pokemon object");
-    return false;
-  }
+  /*
+  Client side functions
+  */
 
   // function that adds a new pokemon into the app as a button in the DOM
   function addListItem(pokemon) {
@@ -45,25 +32,73 @@ var pokemonRepository = (function() {
     button.addEventListener("click", showDetails);
   }
 
+  // function to log details of pokemon
   function showDetails(pokemon) {
-    console.log(pokemon);
+    console.log(this.innerHTML);
   }
 
+  /* 
+  Server side functions
+  */
+
+  //Adding Pokemon objects to the repo
+
+  // function for checking duplicates
+  function checkDuplicate(newPokemon) {
+    for (var i = 0; i < repository.length; i++) {
+      if (newPokemon.name === repository[i].name) {
+        return true;
+      }
+    }
+  }
+
+  // Check there are the correct key names
+  function checkKeys(pokemon) {
+    pokemonKeysArray = Object.keys(pokemon);
+    correctKeysArray = ["name", "height", "type"];
+    array3 = 0;
+    for (var i = 0; i < pokemonKeysArray.length; i++) {
+      if (!correctKeysArray.includes(pokemonKeysArray[i])) {
+        array3 += 1;
+      }
+      if (array3 > 0);
+      {
+        return false;
+      }
+    }
+  }
+
+  // function for checking the new pokemon has correct key fields
+  function checkNumKeys(pokemon) {
+    numKeys = Object.keys(pokemon);
+    if (numKeys.length === 3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
   // add new Pokemon to repo
   function add(pokemon) {
     // make sure type is object
     if (typeof pokemon === "object") {
       // check there aren't duplicates
       if (checkDuplicate(pokemon)) {
-        console.log("There is already a pokemon with that name");
+        return "There is already a pokemon with that name";
       } else {
         // check object has the correct number of keys
-        if (checkKeys(pokemon)) {
-          repository.push(pokemon);
+        if (checkNumKeys(pokemon)) {
+          if (checkKeys(pokemon)) {
+            repository.push(pokemon);
+            return "Pokemon successfully added";
+          } else {
+            return "Incorrect Keys";
+          }
+        } else {
+          return "Incorrect number of Keys in Pokemon object";
         }
       }
     } else {
-      console.log("Wrong Data type. Need to use object type");
+      return "Wrong Data type. Need to use object type";
     }
   }
 
@@ -71,10 +106,10 @@ var pokemonRepository = (function() {
   function search(nameSearch) {
     var result = repository.filter(word => word.name === nameSearch);
     if (result.length > 0) {
-      document.write("Here is your Pokemon:" + "<br>");
+      console.log("Here is your Pokemon:" + "<br>");
       // return the complete object of the relative Pokemon
       Object.keys(result[0]).forEach(function(property) {
-        document.write("<br>" + property + ": " + result[0][property]);
+        console.log("<br>" + property + ": " + result[0][property]);
       });
       return "There's a match!";
     } else {
@@ -104,7 +139,6 @@ Object.keys(pokemonRepository.getAll()).forEach(function(property) {
 /* 
 TESTING AREA
 
-
 test typeof checker
 pokemonRepository.add("Hitmonchan");
 
@@ -122,4 +156,12 @@ pokemonRepository.add({
 // test searchPokemon
 console.log(pokemonRepository.search("snorlax"));
 console.log(pokemonRepository.search("Mewtwo"));
+
+
+var testAdd = pokemonRepository.add({
+  name: "pikajchu",
+  type: ["rock", "water"],
+  weihght: 56
+});
+console.log(testAdd);
 */
