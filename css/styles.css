@@ -10,6 +10,21 @@ title {
   display: none;
 }
 
+.loading-message-class {
+  color: yellow;
+  text-shadow: 2px 2px blue;
+  font-size: 30px;
+  display: none;
+}
+
+.shown {
+  display: block;
+}
+
+.hidden {
+  display: none;
+}
+
 h1 {
   color: black;
   text-shadow: 0.5px 0.5px white;

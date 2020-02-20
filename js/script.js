@@ -1,16 +1,49 @@
 // Create IIFE for app
 var pokemonRepository = (function() {
   // Pokedex repository
-  var repository = [
-    { name: "pikachu", height: "78", type: ["thunder", "grass"] },
-    { name: "chameleon", height: "84", type: ["fire"] },
-    { name: "bulbasaur", height: "54", type: ["grass"] },
-    { name: "squirtle", height: "71", type: ["water"] },
-    { name: "geodude", height: "38", type: ["rock", "grass"] },
-    { name: "jigglypuff", height: "78", type: ["grass", "rock"] },
-    { name: "meowth", height: "57", type: ["rock", "fire"] },
-    { name: "snorlax", height: "120", type: ["rock", "water"] }
-  ];
+  var repository = [];
+
+  /*
+  External APIs
+  */
+  var apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
+
+  // grab the list of pokemon
+  function loadList() {
+    return fetch(apiUrl)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(json) {
+        json.results.forEach(function(item) {
+          var pokemon = {
+            name: item.name,
+            detailsUrl: item.url
+          };
+          add(pokemon);
+        });
+      })
+      .catch(function(e) {
+        console.error(e);
+      });
+  }
+  // load details of pokemon
+  function loadDetails(item) {
+    var url = item.detailsUrl;
+    return fetch(url)
+      .then(function(response) {
+        return response.json();
+      })
+      .then(function(details) {
+        // Now we add the details to the item
+        item.imageUrl = details.sprites.front_default;
+        item.height = details.height;
+        item.types = Object.keys(details.types);
+      })
+      .catch(function(e) {
+        console.error(e);
+      });
+  }
 
   /*
   Client side functions
@@ -30,13 +63,34 @@ var pokemonRepository = (function() {
     $newList.appendChild(listItem);
     // Add event listener to button element
     button.addEventListener("click", () => {
+      showLoadingMessage();
       showDetails(pokemon);
     });
   }
 
   // function to log details of pokemon
   function showDetails(pokemon) {
-    console.log(pokemon);
+    pokemonRepository.loadDetails(pokemon).then(function() {
+      console.log(pokemon);
+      hideLoadingMessage();
+    });
+  }
+
+  function showLoadingMessage() {
+    // target loading class
+    var $loading = document.querySelector(".loading-message-class");
+    // Add CSS style to show loading message
+    $loading.classList.add("shown");
+  }
+
+  function hideLoadingMessage() {
+    // target loading class
+    var $loading = document.querySelector(".loading-message-class");
+    // wait 2 seconds for visual's sake
+    setTimeout(function() {
+      // Add CSS style to hide loading message
+      $loading.classList.remove("shown");
+    }, 1000);
   }
 
   /* 
@@ -79,30 +133,36 @@ var pokemonRepository = (function() {
       return false;
     }
   }
-  // add new Pokemon to repo
+
+  // simple add function ((for now)) so the checks below don't break things with Pokemon API
   function add(pokemon) {
-    // make sure type is object
-    if (typeof pokemon === "object") {
-      // check there aren't duplicates
-      if (checkDuplicate(pokemon)) {
-        return "There is already a pokemon with that name";
-      } else {
-        // check object has the correct number of keys
-        if (checkNumKeys(pokemon)) {
-          if (checkKeys(pokemon)) {
-            repository.push(pokemon);
-            return "Pokemon successfully added";
-          } else {
-            return "Incorrect Keys";
-          }
-        } else {
-          return "Incorrect number of Keys in Pokemon object";
-        }
-      }
-    } else {
-      return "Wrong Data type. Need to use object type";
-    }
+    repository.push(pokemon);
   }
+
+  // // add new Pokemon to repo
+  // function add(pokemon) {
+  //   // make sure type is object
+  //   if (typeof pokemon === "object") {
+  //     // check there aren't duplicates
+  //     if (checkDuplicate(pokemon)) {
+  //       return "There is already a pokemon with that name";
+  //     } else {
+  //       // check object has the correct number of keys
+  //       if (checkNumKeys(pokemon)) {
+  //         if (checkKeys(pokemon)) {
+  //           repository.push(pokemon);
+  //           return "Pokemon successfully added";
+  //         } else {
+  //           return "Incorrect Keys";
+  //         }
+  //       } else {
+  //         return "Incorrect number of Keys in Pokemon object";
+  //       }
+  //     }
+  //   } else {
+  //     return "Wrong Data type. Need to use object type";
+  //   }
+  // }
 
   // search for a Pokemon
   function search(nameSearch) {
@@ -127,15 +187,25 @@ var pokemonRepository = (function() {
     add: add,
     getAll: getAll,
     search: search,
+    loadList: loadList,
     addListItem: addListItem,
-    showDetails: showDetails
+    showDetails: showDetails,
+    loadDetails: loadDetails,
+    showLoadingMessage: showLoadingMessage,
+    hideLoadingMessage: hideLoadingMessage
   };
 })();
 
 var $newList = document.querySelector("ul");
-// refactored forEach loop
-Object.keys(pokemonRepository.getAll()).forEach(function(property) {
-  pokemonRepository.addListItem(pokemonRepository.getAll()[property]);
+
+pokemonRepository.showLoadingMessage();
+// Make sure the Pokémon list is only rendered after you’ve gotten all information from the server.
+pokemonRepository.loadList().then(function() {
+  // Now the data is loaded!
+  pokemonRepository.getAll().forEach(function(pokemon) {
+    pokemonRepository.addListItem(pokemon);
+  });
+  pokemonRepository.hideLoadingMessage();
 });
 
 /* 
