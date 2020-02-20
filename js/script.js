@@ -29,12 +29,14 @@ var pokemonRepository = (function() {
     // Add list element to the Dom via the ul parent
     $newList.appendChild(listItem);
     // Add event listener to button element
-    button.addEventListener("click", showDetails);
+    button.addEventListener("click", () => {
+      showDetails(pokemon);
+    });
   }
 
   // function to log details of pokemon
   function showDetails(pokemon) {
-    console.log(this.innerHTML);
+    console.log(pokemon);
   }
 
   /* 
