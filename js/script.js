@@ -21,12 +21,12 @@ var pokemonRepository = (function() {
     var listItem = document.createElement("li");
     var button = document.createElement("button");
     // Adding var to the new Button element
-    button.innerHTML = pokemon.name;
+    button.innerText = pokemon.name;
     // Creating a css class for clicking on the button
     button.classList.add("customButton");
     // Add button to li item
     listItem.appendChild(button);
-    // Add list element to the Dom via the ul parent (automatically the last child)
+    // Add list element to the Dom via the ul parent
     $newList.appendChild(listItem);
     // Add event listener to button element
     button.addEventListener("click", showDetails);
