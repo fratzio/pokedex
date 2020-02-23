@@ -71,6 +71,15 @@ var pokemonRepository = (function() {
   // function to log details of pokemon
   function showDetails(pokemon) {
     pokemonRepository.loadDetails(pokemon).then(function() {
+      console.log(pokemon.url);
+      var bodyContent =
+        "Height: " +
+        pokemon.height +
+        "<br>" +
+        "Types: " +
+        pokemon.types +
+        "<br>";
+      showModal(pokemon.name, bodyContent, pokemon.imageUrl);
       console.log(pokemon);
       hideLoadingMessage();
     });
@@ -90,7 +99,7 @@ var pokemonRepository = (function() {
     setTimeout(function() {
       // Add CSS style to hide loading message
       $loading.classList.remove("shown");
-    }, 1000);
+    }, 500);
   }
 
   /* 
@@ -182,6 +191,132 @@ var pokemonRepository = (function() {
   function getAll() {
     return repository;
   }
+
+  // Show modal
+  // grab modal container
+  var $modalContainer = document.querySelector("#modal-container");
+
+  function showModal(title, text, url) {
+    //Clear all existing modal content
+    $modalContainer.innerHTML = "";
+    // create new modal
+    var modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    // Add new modal content
+    // button
+    var closeButtonElement = document.createElement("button");
+    closeButtonElement.classList.add("modal-close");
+    closeButtonElement.innerText = "Close";
+    // close modal
+    closeButtonElement.addEventListener("click", hideModal);
+
+    // title
+    var titleElement = document.createElement("h1");
+    titleElement.innerText = title;
+    // wrap body content in a div
+    var bodyWrapper = document.createElement("div");
+    bodyWrapper.classList.add("body-element");
+    // paragraph element
+    var contentElement = document.createElement("p");
+    contentElement.innerText = text;
+
+    // img
+    var imgWrapper = document.createElement("div");
+    var imgElement = document.createElement("img");
+    imgElement.src = url;
+
+    // attach to DOM
+    bodyWrapper.appendChild(closeButtonElement);
+    bodyWrapper.appendChild(titleElement);
+    bodyWrapper.appendChild(contentElement);
+    imgWrapper.appendChild(imgElement);
+    modal.appendChild(bodyWrapper);
+    modal.appendChild(imgWrapper);
+    $modalContainer.appendChild(modal);
+
+    // add class to show element
+    $modalContainer.classList.add("is-visible");
+  }
+
+  function showDialog(title, text) {
+    showModal(title, text);
+
+    // we want to add a confirm and cancel button to the modal
+    var modal = $modalContainer.querySelector(".modal");
+
+    var confirmButton = document.createElement("button");
+    confirmButton.classList.add("modal-confirm");
+    confirmButton.innerText = "Confirm";
+
+    var cancelButton = document.createElement("button");
+    cancelButton.classList.add("modal-cancel");
+    cancelButton.innerText = "Cancel";
+
+    modal.appendChild(confirmButton);
+    modal.appendChild(cancelButton);
+
+    // help user focus on confirmButton to press enter
+    confirmButton.focus();
+
+    // Return promise that resolves when confirmed or else rejects
+    return new Promise((resolve, reject) => {
+      cancelButton.addEventListener("click", hideModal);
+      confirmButton.addEventListener("click", () => {
+        dialogPromiseReject = null;
+        hideModal();
+        resolve();
+      });
+
+      // used to reject from other functions
+      dialogPromiseReject = reject;
+    });
+  }
+
+  function hideModal() {
+    // grab modal (parent element)
+    $modalContainer.classList.remove("is-visible");
+
+    // if (dialogPromiseReject) {
+    //   // this is the reject function from the Promise function
+    //   dialogPromiseReject();
+    //   dialogPromiseReject = null;
+    // }
+  }
+
+  // // add event listener to element
+  // document.querySelector("#show-modal").addEventListener("click", () => {
+  //   showModal("Modal title", "This is the modal content!");
+  // });
+
+  // closing modal with esc button
+  window.addEventListener("keydown", e => {
+    if (
+      e.key === "Escape" &&
+      $modalContainer.classList.contains("is-visible")
+    ) {
+      hideModal();
+    }
+  });
+
+  $modalContainer.addEventListener("click", e => {
+    // listens to clicks on container
+    var target = e.target;
+    if (target === $modalContainer) {
+      hideModal();
+    }
+  });
+
+  // document.querySelector("#show-dialog").addEventListener("click", () => {
+  //   showDialog("Confirm actions", "Are you sure you want to do this?").then(
+  //     function() {
+  //       alert("confirmed!");
+  //     },
+  //     () => {
+  //       alert("not confirmed");
+  //     }
+  //   );
+  // });
 
   return {
     add: add,
