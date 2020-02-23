@@ -156,9 +156,9 @@ input {
 
 .modal {
   display: flex;
-  flex-direction: row;
+  flex-wrap: nowrap;
+  flex-direction: row-reverse;
   margin: auto;
-  display: block;
   box-sizing: border-box;
   background: #fff;
   padding: 15px;
@@ -169,12 +169,13 @@ input {
 
 img {
   border: 1px dotted black;
-  margin: 0 auto;
+  width: 100%;
+  height: 100%;
 }
 
 .modal > div {
   border: 3px solid green;
-  flex: 0 1 150px;
+  flex: 0 1 200px;
 }
 
 .modal-close {
@@ -188,11 +189,8 @@ img {
 .modal h1 {
   border: 1px solid red;
   margin-top: 0;
-  float: right;
 }
 
 .modal p {
   border: 2px solid purple;
-  margin-bottom: 0;
-  float: right;
 }
