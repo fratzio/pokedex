@@ -38,7 +38,16 @@ var pokemonRepository = (function() {
         // Now we add the details to the item
         item.imageUrl = details.sprites.front_default;
         item.height = details.height;
-        item.types = Object.keys(details.types);
+        // loop through types
+        item.types = "";
+        Object.keys(details.types).forEach(function(key) {
+          var newObj = details.types[key].type;
+          Object.keys(newObj).forEach(function(newKey) {
+            if (newKey === "name") {
+              item.types += newObj[newKey] + "\n";
+            }
+          });
+        });
       })
       .catch(function(e) {
         console.error(e);
@@ -71,16 +80,15 @@ var pokemonRepository = (function() {
   // function to log details of pokemon
   function showDetails(pokemon) {
     pokemonRepository.loadDetails(pokemon).then(function() {
-      console.log(pokemon.url);
       var bodyContent =
         "Height: " +
+        "\n" +
         pokemon.height +
-        "<br>" +
+        "\n" +
         "Types: " +
         pokemon.types +
-        "<br>";
+        "\n";
       showModal(pokemon.name, bodyContent, pokemon.imageUrl);
-      console.log(pokemon);
       hideLoadingMessage();
     });
   }
