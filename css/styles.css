@@ -163,6 +163,7 @@ input {
   padding: 15px;
   width: 100%;
   max-width: 500px;
+  box-shadow: 8px 4px black;
 }
 
 img {
@@ -182,6 +183,10 @@ img {
   text-decoration: underline;
 }
 
+.modal button:active {
+  background-color: transparent;
+}
+
 .modal h1 {
   margin-top: 0;
   font-size: 40px;
@@ -189,4 +194,34 @@ img {
 
 .modal p {
   font-size: 30px;
+}
+
+/* Responsive layout */
+
+@media all and (max-width: 328px) {
+  .modal > div {
+    flex: 0 1 150px;
+  }
+  .modal {
+    padding: 5px;
+    width: 80%;
+    box-shadow: 4px 2px black;
+  }
+  .screen {
+    max-width: 328px;
+  }
+  #modal-container.is-visible {
+    width: 328px;
+  }
+  .modal h1 {
+    margin-top: 0;
+    font-size: 20px;
+  }
+
+  .modal p {
+    font-size: 10px;
+  }
+  .modal-close {
+    font-size: 8px;
+  }
 }
