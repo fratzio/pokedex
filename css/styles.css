@@ -48,19 +48,21 @@ body {
   display: flex;
   justify-content: center;
   /*border: 2px solid red;*/
+  width: auto;
+  max-height: 300px;
+  margin: auto;
 }
 
 .screen {
-  border: 30px solid black;
   display: flex;
   justify-content: center;
-  min-width: 500px;
-  border-radius: 50%;
-  min-height: 300px;
+  overflow-y: scroll;
 }
 
 .page-footer {
   border: 2px solid black;
+  min-height: 100px;
+  background-color: black;
 }
 
 .customButton {
@@ -95,7 +97,7 @@ li {
   /*border: 2px dotted green;*/
   font-size: medium;
   width: 230px;
-  align-content: right;
+  align-content: center;
   margin: 0 auto;
   max-height: 50px;
   display: block;
@@ -218,7 +220,6 @@ img {
     margin-top: 0;
     font-size: 20px;
   }
-
   .modal p {
     font-size: 15px;
   }
