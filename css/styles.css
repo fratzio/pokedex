@@ -200,11 +200,12 @@ img {
 
 @media all and (max-width: 328px) {
   .modal > div {
-    flex: 0 1 150px;
+    flex: 0 1 400px;
   }
   .modal {
     padding: 5px;
-    width: 80%;
+    max-width: 300px;
+    height: 200px;
     box-shadow: 4px 2px black;
   }
   .screen {
@@ -219,7 +220,7 @@ img {
   }
 
   .modal p {
-    font-size: 10px;
+    font-size: 15px;
   }
   .modal-close {
     font-size: 8px;
