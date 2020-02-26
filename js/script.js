@@ -40,13 +40,8 @@ var pokemonRepository = (function() {
         item.height = details.height;
         // loop through types
         item.types = "";
-        Object.keys(details.types).forEach(function(key) {
-          var newObj = details.types[key].type;
-          Object.keys(newObj).forEach(function(newKey) {
-            if (newKey === "name") {
-              item.types += newObj[newKey] + "\n";
-            }
-          });
+        details.types.forEach(function(type) {
+          item.types = type.type.name += "\n";
         });
       })
       .catch(function(e) {
