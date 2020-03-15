@@ -6,7 +6,7 @@ var pokemonRepository = (function() {
   /*
   External APIs
   */
-  var apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
+  var apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
   // grab the list of pokemon
   function loadList() {
@@ -39,9 +39,9 @@ var pokemonRepository = (function() {
         item.imageUrl = details.sprites.front_default;
         item.height = details.height;
         // loop through types
-        item.types = "";
+        item.types = '';
         details.types.forEach(function(type) {
-          item.types = type.type.name += "\n";
+          item.types = type.type.name += '\n';
         });
       })
       .catch(function(e) {
@@ -55,18 +55,18 @@ var pokemonRepository = (function() {
 
   // function that adds a new pokemon into the app as a button in the DOM
   function addListItem(pokemon) {
-    var listItem = document.createElement("li");
-    var button = document.createElement("button");
+    var listItem = document.createElement('li');
+    var button = document.createElement('button');
     // Adding var to the new Button element
     button.innerText = pokemon.name;
     // Creating a css class for clicking on the button
-    button.classList.add("customButton");
+    button.classList.add('customButton');
     // Add button to li item
     listItem.appendChild(button);
     // Add list element to the Dom via the ul parent
     $newList.appendChild(listItem);
     // Add event listener to button element
-    button.addEventListener("click", () => {
+    button.addEventListener('click', () => {
       showLoadingMessage();
       showDetails(pokemon);
     });
@@ -76,13 +76,13 @@ var pokemonRepository = (function() {
   function showDetails(pokemon) {
     pokemonRepository.loadDetails(pokemon).then(function() {
       var bodyContent =
-        "Height: " +
-        "\n" +
+        'Height: ' +
+        '\n' +
         pokemon.height +
-        "\n" +
-        "Types: " +
+        '\n' +
+        'Types: ' +
         pokemon.types +
-        "\n";
+        '\n';
       showModal(pokemon.name, bodyContent, pokemon.imageUrl);
       hideLoadingMessage();
     });
@@ -90,18 +90,18 @@ var pokemonRepository = (function() {
 
   function showLoadingMessage() {
     // target loading class
-    var $loading = document.querySelector(".loading-message-class");
+    var $loading = document.querySelector('.loading-message-class');
     // Add CSS style to show loading message
-    $loading.classList.add("shown");
+    $loading.classList.add('shown');
   }
 
   function hideLoadingMessage() {
     // target loading class
-    var $loading = document.querySelector(".loading-message-class");
+    var $loading = document.querySelector('.loading-message-class');
     // wait 2 seconds for visual's sake
     setTimeout(function() {
       // Add CSS style to hide loading message
-      $loading.classList.remove("shown");
+      $loading.classList.remove('shown');
     }, 500);
   }
 
@@ -112,39 +112,39 @@ var pokemonRepository = (function() {
   //Adding Pokemon objects to the repo
 
   // function for checking duplicates
-  function checkDuplicate(newPokemon) {
-    for (var i = 0; i < repository.length; i++) {
-      if (newPokemon.name === repository[i].name) {
-        return true;
-      }
-    }
-  }
+  // function checkDuplicate(newPokemon) {
+  //   for (var i = 0; i < repository.length; i++) {
+  //     if (newPokemon.name === repository[i].name) {
+  //       return true;
+  //     }
+  //   }
+  // }
 
-  // Check there are the correct key names
-  function checkKeys(pokemon) {
-    pokemonKeysArray = Object.keys(pokemon);
-    correctKeysArray = ["name", "height", "type"];
-    array3 = 0;
-    for (var i = 0; i < pokemonKeysArray.length; i++) {
-      if (!correctKeysArray.includes(pokemonKeysArray[i])) {
-        array3 += 1;
-      }
-      if (array3 > 0);
-      {
-        return false;
-      }
-    }
-  }
+  // // Check there are the correct key names
+  // function checkKeys(pokemon) {
+  //   var pokemonKeysArray = Object.keys(pokemon);
+  //   var correctKeysArray = ['name', 'height', 'type'];
+  //   array3 = 0;
+  //   for (var i = 0; i < pokemonKeysArray.length; i++) {
+  //     if (!correctKeysArray.includes(pokemonKeysArray[i])) {
+  //       array3 += 1;
+  //     }
+  //     if (array3 > 0);
+  //     {
+  //       return false;
+  //     }
+  //   }
+  // }
 
-  // function for checking the new pokemon has correct key fields
-  function checkNumKeys(pokemon) {
-    numKeys = Object.keys(pokemon);
-    if (numKeys.length === 3) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  // // function for checking the new pokemon has correct key fields
+  // function checkNumKeys(pokemon) {
+  //   numKeys = Object.keys(pokemon);
+  //   if (numKeys.length === 3) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // }
 
   // simple add function ((for now)) so the checks below don't break things with Pokemon API
   function add(pokemon) {
@@ -180,14 +180,14 @@ var pokemonRepository = (function() {
   function search(nameSearch) {
     var result = repository.filter(word => word.name === nameSearch);
     if (result.length > 0) {
-      console.log("Here is your Pokemon:" + "<br>");
+      console.log('Here is your Pokemon:' + '<br>');
       // return the complete object of the relative Pokemon
       Object.keys(result[0]).forEach(function(property) {
-        console.log("<br>" + property + ": " + result[0][property]);
+        console.log('<br>' + property + ': ' + result[0][property]);
       });
-      return "There's a match!";
+      return 'There"s a match!';
     } else {
-      return "There is no Pokemon with that name in the Pokedex";
+      return 'There is no Pokemon with that name in the Pokedex';
     }
   }
 
@@ -197,36 +197,36 @@ var pokemonRepository = (function() {
 
   // Show modal
   // grab modal container
-  var $modalContainer = document.querySelector("#modal-container");
+  var $modalContainer = document.querySelector('#modal-container');
 
   function showModal(title, text, url) {
     //Clear all existing modal content
-    $modalContainer.innerHTML = "";
+    $modalContainer.innerHTML = '';
     // create new modal
-    var modal = document.createElement("div");
-    modal.classList.add("modal");
+    var modal = document.createElement('div');
+    modal.classList.add('modal');
 
     // Add new modal content
     // button
-    var closeButtonElement = document.createElement("button");
-    closeButtonElement.classList.add("modal-close");
-    closeButtonElement.innerText = "Close";
+    var closeButtonElement = document.createElement('button');
+    closeButtonElement.classList.add('modal-close');
+    closeButtonElement.innerText = 'Close';
     // close modal
-    closeButtonElement.addEventListener("click", hideModal);
+    closeButtonElement.addEventListener('click', hideModal);
 
     // title
-    var titleElement = document.createElement("h1");
+    var titleElement = document.createElement('h1');
     titleElement.innerText = title;
     // wrap body content in a div
-    var bodyWrapper = document.createElement("div");
-    bodyWrapper.classList.add("body-element");
+    var bodyWrapper = document.createElement('div');
+    bodyWrapper.classList.add('body-element');
     // paragraph element
-    var contentElement = document.createElement("p");
+    var contentElement = document.createElement('p');
     contentElement.innerText = text;
 
     // img
-    var imgWrapper = document.createElement("div");
-    var imgElement = document.createElement("img");
+    var imgWrapper = document.createElement('div');
+    var imgElement = document.createElement('img');
     imgElement.src = url;
 
     // attach to DOM
@@ -239,46 +239,46 @@ var pokemonRepository = (function() {
     $modalContainer.appendChild(modal);
 
     // add class to show element
-    $modalContainer.classList.add("is-visible");
+    $modalContainer.classList.add('is-visible');
   }
 
-  function showDialog(title, text) {
-    showModal(title, text);
+  // function showDialog(title, text) {
+  //   showModal(title, text);
 
-    // we want to add a confirm and cancel button to the modal
-    var modal = $modalContainer.querySelector(".modal");
+  //   // we want to add a confirm and cancel button to the modal
+  //   var modal = $modalContainer.querySelector('.modal');
 
-    var confirmButton = document.createElement("button");
-    confirmButton.classList.add("modal-confirm");
-    confirmButton.innerText = "Confirm";
+  //   var confirmButton = document.createElement('button');
+  //   confirmButton.classList.add('modal-confirm');
+  //   confirmButton.innerText = 'Confirm';
 
-    var cancelButton = document.createElement("button");
-    cancelButton.classList.add("modal-cancel");
-    cancelButton.innerText = "Cancel";
+  //   var cancelButton = document.createElement('button');
+  //   cancelButton.classList.add('modal-cancel');
+  //   cancelButton.innerText = 'Cancel';
 
-    modal.appendChild(confirmButton);
-    modal.appendChild(cancelButton);
+  //   modal.appendChild(confirmButton);
+  //   modal.appendChild(cancelButton);
 
-    // help user focus on confirmButton to press enter
-    confirmButton.focus();
+  //   // help user focus on confirmButton to press enter
+  //   confirmButton.focus();
 
-    // Return promise that resolves when confirmed or else rejects
-    return new Promise((resolve, reject) => {
-      cancelButton.addEventListener("click", hideModal);
-      confirmButton.addEventListener("click", () => {
-        dialogPromiseReject = null;
-        hideModal();
-        resolve();
-      });
+  //   // Return promise that resolves when confirmed or else rejects
+  //   return new Promise((resolve, reject) => {
+  //     cancelButton.addEventListener('click', hideModal);
+  //     confirmButton.addEventListener('click', () => {
+  //       dialogPromiseReject = null;
+  //       hideModal();
+  //       resolve();
+  //     });
 
-      // used to reject from other functions
-      dialogPromiseReject = reject;
-    });
-  }
+  //     // used to reject from other functions
+  //     dialogPromiseReject = reject;
+  //   });
+  // }
 
   function hideModal() {
     // grab modal (parent element)
-    $modalContainer.classList.remove("is-visible");
+    $modalContainer.classList.remove('is-visible');
 
     // if (dialogPromiseReject) {
     //   // this is the reject function from the Promise function
@@ -293,16 +293,16 @@ var pokemonRepository = (function() {
   // });
 
   // closing modal with esc button
-  window.addEventListener("keydown", e => {
+  window.addEventListener('keydown', e => {
     if (
-      e.key === "Escape" &&
-      $modalContainer.classList.contains("is-visible")
+      e.key === 'Escape' &&
+      $modalContainer.classList.contains('is-visible')
     ) {
       hideModal();
     }
   });
 
-  $modalContainer.addEventListener("click", e => {
+  $modalContainer.addEventListener('click', e => {
     // listens to clicks on container
     var target = e.target;
     if (target === $modalContainer) {
@@ -334,7 +334,7 @@ var pokemonRepository = (function() {
   };
 })();
 
-var $newList = document.querySelector("ul");
+var $newList = document.querySelector('ul');
 
 pokemonRepository.showLoadingMessage();
 // Make sure the Pokémon list is only rendered after you’ve gotten all information from the server.
